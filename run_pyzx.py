@@ -11,9 +11,6 @@ def run(d, fname):
     
     for fname in os.listdir(d):
 
-        if fname == "gf2^10_mult.qasm" or fname == "gf2^16_mult.qasm":
-            continue
-
         print("Processing %s..." % fname)
         
         circ = zx.Circuit.load(os.path.join(d, fname)).to_basic_gates()
