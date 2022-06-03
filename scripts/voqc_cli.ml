@@ -76,9 +76,12 @@ if !inf = "" then printf "ERROR: Input filename (-i) required.\n" else
 if !outf = "" then printf "ERROR: Output filename (-o) required.\n" else 
 let _ = printf "Input file: %s\nOutput file: %s\n%!" !inf !outf in
 if !lcr <> 0 && !lcr < 3 then printf "ERROR: LCR option requires an argument >= 2\n" else
+let start = Sys.time () in
 let (c, n) = read_qasm !inf in
 let c = convert_to_rzq c in (* convert to RzQ gate set *)
 let _ = printf "Input program uses %d gates and %d qubits\n%!" (count_total c) n in
+let parsetime = Sys.time () in
+let _ = printf "Time taken to read file and convert to input gate set: %fs\n%!" (parsetime -. start) in
 if !lcr <> 0 
 then (
     let _ = printf "LCR option selected with %d iterations\n%!" !lcr in
@@ -100,6 +103,7 @@ then (
         printf "{ Total : %d, H : %d, Rzq : %d, Rzq(Clifford) : %d, CX : %d }\n%!" intot inh inrzq incliff incx;
         printf "Final gate counts (for %d iterations) = " !lcr;
         printf "{ Total : %d, H : %d, Rzq : %d, Rzq(Clifford) : %d, CX : %d }\n%!" outtot outh outrzq outcliff outcx;
+        printf "Time taken to optimize: %fs\n%!" (Sys.time () -. parsetime)
 ) else (
     let _ = if !optimnam && not !light then printf "Nam optimization enabled\n%!" else () in
     let _ = if !light then printf "Nam optimization (light) enabled\n%!" else () in
@@ -108,7 +112,10 @@ then (
     let c1 = if !optimnam && not !light then optimize_nam c else c in
     let c2 = if !light then optimize_nam_light c1 else c1 in
     let c3 = if !optimibm then optimize_ibm c2 else c2 in
+    let opttime = Sys.time () in
+    let _ = printf "Time taken to optimize: %fs\n%!" (opttime -. parsetime) in
     let _ = printf "Final gate counts = "; print_info c3 !verbose in
-    write_qasm c3 n !outf 
+    let _ = write_qasm c3 n !outf in 
+    printf "Time taken to write file: %fs\n%!" (Sys.time () -. opttime)
 )
 

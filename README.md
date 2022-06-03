@@ -1,6 +1,6 @@
 # VOQC Benchmarks
 
-This directory contains scripts for evaluating the [VOQC optimizer](https://github.com/inQWIRE/SQIR). In particular, use `run_on_staq_benchmarks.sh` to generate the data from our paper.
+This directory contains scripts for evaluating the [VOQC optimizer](https://github.com/inQWIRE/SQIR). In particular, we used `scripts/run_on_staq_benchmarks.sh` and `scripts/run_on_nam_benchmarks.sh` to generate the data in our paper.
 
 We consider the following benchmarks:
 * **Nam-benchmarks**: Used to evaluate [an optimizer by Nam et al.](https://arxiv.org/abs/1710.07345); available in Quipper format at [github.com/njross/optimizer](https://github.com/njross/optimizer). We used [PyZX](https://github.com/Quantomatic/pyzx)'s `from_quipper_file` function to convert the circuits to OpenQASM.

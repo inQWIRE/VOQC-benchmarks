@@ -1,2 +1,3 @@
 _build
 *.csv
+__pycache__
