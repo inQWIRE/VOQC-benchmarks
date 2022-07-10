@@ -1,3 +1,9 @@
 (executable
   (name voqc_cli)
+  (modules voqc_cli)
+  (libraries voqc))
+
+(executable
+  (name voqc_mapping_experiment)
+  (modules voqc_mapping_experiment)
   (libraries voqc))
